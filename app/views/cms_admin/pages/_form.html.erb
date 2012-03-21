@@ -26,6 +26,7 @@
   <% end %>
   <%= cms_hook :page_form, :object => form %>
   <%= render :partial => 'cms_admin/categories/form', :object => form %>
+  <%= form.check_box :markdown_enabled %>
 </div>
 
 <%= render :partial => 'form_blocks' %>

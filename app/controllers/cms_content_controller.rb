@@ -14,7 +14,13 @@ class CmsContentController < ApplicationController
   def render_html(status = 200)
     if @cms_layout = @cms_page.layout
       app_layout = (@cms_layout.app_layout.blank? || request.xhr?) ? false : @cms_layout.app_layout
-      render :inline => @cms_page.content, :layout => app_layout, :status => status
+
+      if @cms_page.markdown_enabled
+        render :inline => Maruku.new(@cms_page.content).to_html_document, :layout => app_layout, :status => status
+      else
+        render :inline => @cms_page.content, :layout => app_layout, :status => status
+      end
+      
     else
       render :text => I18n.t('cms.content.layout_not_found'), :status => 404
     end
